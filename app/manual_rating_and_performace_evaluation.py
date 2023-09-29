@@ -88,3 +88,4 @@ with open("performance.csv", "w", newline="", encoding="utf-8") as performance_f
     writer.writerow([top_1_accuracy, top_3_accuracy])
 
 print("Performance metrics have been saved to performance.csv")
+
