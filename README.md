@@ -2,16 +2,21 @@
 
 ## Table of Contents
 
-1. [Project Description](#project-description)
-2. [Prerequisites](#prerequisites)
-3. [Installation](#installation)
-4. [Configuration](#configuration)
-5. [Usage](#usage)
-    - [Command-Line Interface (CLI)](#command-line-interface-cli)
-    - [Web Interface](#web-interface)
-
-6. [Authors](#authors)
-7. [Acknowledgments](#acknowledgments)
+- [Question Answering System](#question-answering-system)
+  - [Table of Contents](#table-of-contents)
+  - [Project Description](#project-description)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+    - [Clone the repository:](#clone-the-repository)
+    - [Manual Setup](#manual-setup)
+  - [Docker Setup and Commands](#docker-setup-and-commands)
+  - [Configuration](#configuration)
+  - [Usage](#usage)
+    - [Manual Setup](#manual-setup-1)
+    - [1. Command-Line Interface (CLI)](#1-command-line-interface-cli)
+    - [2. Web Interface](#2-web-interface)
+  - [Author:](#author)
+  - [Acknowledgments](#acknowledgments)
 
 ## Project Description
 
@@ -25,24 +30,22 @@ Key Components:
 
 The primary objective is to create a robust and user-friendly question-answering (QA) machine learning system. It excels at interpreting user queries, searching for pertinent information within a given dataset, and presenting accurate answers.
 
-
-
-
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 
-- Python 3.10
-- Elasticsearch
+- Docker & Docker Compose
+- Python 3.10 (for manual setup)
+- Elasticsearch (for manual setup)
 - Required Python packages (specified in `requirements.txt`)
 
 ## Installation
-For manual installation, you need to have [`Python3`](https://www.python.org/) on your system. Then you can clone this repo and being at the repo's `root : question_answering>`  follow the steps below:
+
 ### Clone the repository:
 
     git clone https://github.com/Kyei-frank/question_answering.git
 
-
+### Manual Setup
 
 Windows:
 
@@ -57,32 +60,52 @@ Linux & macOS:
     source venv/bin/activate
     python -m pip install -q --upgrade pip
     python -m pip install -qr requirements.txt
+
 Note: macOS users may need to install Xcode if there are issues.
 
+## Docker Setup and Commands
+
+To set up the system using Docker:
+
+1. **Build the Docker Image**:
+
+    ```
+    docker build -t question_answering_system .
+    ```
+
+2. **Run the Docker Container**:
+
+    ```
+    docker run -d -p 5000:5000 question_answering_system
+    ```
+
+With these commands, your system will be up and running inside a Docker container, accessible via `http://localhost:5000`.
 
 ## Configuration
+
 Set up environment variables for Elasticsearch Cloud:
 
     export ES_USERNAME=elastic
     export ES_PASSWORD=ElasticsearchPassword
-    export ES_CLOUD_ENDPOINTyour-elasticsearch-url.com
+    export ES_CLOUD_ENDPOINT=your-elasticsearch-url.com
 
-You can configure other settings in config.py if necessary.
+You can configure other settings in `config.py` if necessary.
 
 ## Usage
 
+### Manual Setup
+
 Run all the required files in the following order to index and retrieve passages:
 
-(Make sure to navigate to the the files location "/app")
+(Make sure to navigate to the files location "/app")
 
     python parsing.py
     python model.py
     python indexing.py
-    python retrrieval.py
+    python retrieval.py
     python app.py
-You can test or run queries via:
+
 ### 1. Command-Line Interface (CLI)
-To run the Question Answering System from the command line, use the following command:
 
 Upload documents for indexing via cmd:
 
@@ -92,24 +115,23 @@ Submit query for response via cmd:
 
     curl -X POST -F "file=@path/to/your/file.txt" http://127.0.0.1:5000/upload
 
-To generate response with search_script.py via Terminal:
+To generate a response with `search_script.py` via Terminal:
 
     python app/search_script.py "what is a case?"
 
 ### 2. Web Interface
+
 To use the web interface, run the Flask app:
 
     python app.py
 
-Access the application in your web browser at 
-
-    http://localhost:5000.
-
+Then, access the application in your web browser at `http://localhost:5000`.
 
 ## Author:
 [FK Baffour](https://www.linkedin.com/in/frank-kyei-baffour-403b60100/)
 
 ## Acknowledgments
-The Sentence Transformers library
 
-Elasticsearch community
+- Kwame AI
+- The Sentence Transformers library
+- Elasticsearch community

@@ -1,14 +1,14 @@
 import csv
 
 # Open the evaluation.csv file for reading
-with open("evaluation.csv", "r", newline="", encoding="utf-8") as file:
+with open("docs/evaluation.csv", "r", newline="", encoding="utf-8") as file:
     reader = csv.DictReader(file)
     
     # Define the headers for the rated CSV file
     rated_headers = ["Question", "Passage 1", "Is Passage 1 Relevant?", "Passage 2", "Is Passage 2 Relevant?", "Passage 3", "Is Passage 3 Relevant?"]
 
     # Open the new CSV file for writing
-    with open("evaluation_rated.csv", "w", newline="", encoding="utf-8") as rated_file:
+    with open("docs/evaluation_rated.csv", "w", newline="", encoding="utf-8") as rated_file:
         writer = csv.DictWriter(rated_file, fieldnames=rated_headers)
         writer.writeheader()
 
@@ -82,7 +82,7 @@ top_1_accuracy = (top_1_correct / total_queries) * 100
 top_3_accuracy = (total_relevant_passages / (3 * total_queries)) * 100
 
 # Save the accuracy results to a new CSV file (performance.csv)
-with open("performance.csv", "w", newline="", encoding="utf-8") as performance_file:
+with open("docs/performance.csv", "w", newline="", encoding="utf-8") as performance_file:
     writer = csv.writer(performance_file)
     
     # Write the header row
