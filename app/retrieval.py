@@ -55,6 +55,10 @@ class Retrievals:
         :param query_embedding: The embedding of the query.
         :return: The search results.
         """
+        
+        # Clear the Elasticsearch cache before executing a new query
+        # self.es.indices.clear_cache(index=self.index_name)
+
         query = {
             "size": 3,
             "query": {
@@ -77,7 +81,7 @@ class Retrievals:
         :param questions: List of questions.
         """
         # Prepare the CSV file to save the results
-        with open('questions_answers.csv', mode='w', newline='', encoding='utf-8') as file:
+        with open('docs/questions_answers.csv', mode='w', newline='', encoding='utf-8') as file:
             csv_writer = csv.writer(file)
             csv_writer.writerow(['Question', 'Passage 1', 'Relevance Score 1', 'Passage 1 Metadata',
                                  'Passage 2', 'Relevance Score 2', 'Passage 2 Metadata',
@@ -97,15 +101,16 @@ class Retrievals:
                     score = doc['_score']
                     metadata = doc['_source']['Metadata']
                     row.extend([passage, score, metadata])
-                 
-                # Print to the command line
-                print(passage)
                 
                 # writting to a csv file
                 csv_writer.writerow(row)
-
-        print("Results have been saved to questions_answers.csv")
-
+                
+                # Print to the command line
+                print(passage)
+                
+            print("Results have been saved to questions_answers.csv")
+            return(similar_docs)
+            
 
 # Sample usage
 if __name__ == "__main__":

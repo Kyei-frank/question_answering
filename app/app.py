@@ -37,9 +37,14 @@ def search():
     It retrieves answers based on the received question.
     """
     if request.method == 'POST':
-        question = request.form.get('question')
+        # Updated the line below to get JSON payload
+        data = request.get_json()
+        question = data.get('question')
+        
         if not question:
             return jsonify({"error": "Question not provided"}), 400
+        
+        # Removed the list wrapping around question since retrieve_answers expects a list
         results = retrieval.retrieve_answers([question])
         return jsonify(results), 200
 
@@ -61,6 +66,15 @@ def upload_file():
         indexer.run()
         return jsonify({"success": "File uploaded and indexed"}), 200
     return jsonify({"error": "File type not allowed"}), 400
+
+@app.errorhandler(404)
+def not_found(e):
+    return jsonify({"error": "Resource not found"}), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    log.error(f"Server error: {e}")
+    return jsonify({"error": "Internal server error"}), 500
 
 # Run the Flask application when the script is executed
 if __name__ == '__main__':

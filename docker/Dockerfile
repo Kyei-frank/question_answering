@@ -18,6 +18,5 @@ ENV ES_USERNAME elastic
 ENV ES_PASSWORD JjfCLFlTkozxrjoJI6rgsj2F
 ENV ES_CLOUD_ENDPOINT https://my-deployment-eac7ec.es.us-central1.gcp.cloud.es.io
 
-
 # Run your application when the container launches
-CMD ["python", "/app.py"]
+CMD ["python", "app.py"]

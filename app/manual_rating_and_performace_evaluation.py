@@ -51,12 +51,12 @@ print("Ratings have been saved to evaluation_rated.csv")
 
 # Calculating Accuracy for Top-1 and Top-3
 # Load the rated CSV file (evaluation_rated.csv)
-with open("evaluation_rated.csv", "r", newline="", encoding="utf-8") as rated_file:
+with open("docs/evaluation_rated.csv", "r", newline="", encoding="utf-8") as rated_file:
     reader = csv.DictReader(rated_file)
     
-    # Initialize variables to count top-1 and top-3 correct answers
+    # Initialize variables to count top-1 correct answers and total relevant passages
     top_1_correct = 0
-    top_3_correct = 0
+    total_relevant_passages = 0
 
     for row in reader:
         question = row["Question"]
@@ -68,14 +68,18 @@ with open("evaluation_rated.csv", "r", newline="", encoding="utf-8") as rated_fi
         if is_relevant_1 == "yes":
             top_1_correct += 1
         
-        # Check if at least one of the top-3 passages is relevant (top-3)
-        if is_relevant_1 == "yes" or is_relevant_2 == "yes" or is_relevant_3 == "yes":
-            top_3_correct += 1
+        # Count total relevant passages among the top three
+        if is_relevant_1 == "yes":
+            total_relevant_passages += 1
+        if is_relevant_2 == "yes":
+            total_relevant_passages += 1
+        if is_relevant_3 == "yes":
+            total_relevant_passages += 1
 
 # Calculate the top-1 and top-3 accuracy percentages
 total_queries = 10
 top_1_accuracy = (top_1_correct / total_queries) * 100
-top_3_accuracy = (top_3_correct / total_queries) * 100
+top_3_accuracy = (total_relevant_passages / (3 * total_queries)) * 100
 
 # Save the accuracy results to a new CSV file (performance.csv)
 with open("performance.csv", "w", newline="", encoding="utf-8") as performance_file:
@@ -88,4 +92,3 @@ with open("performance.csv", "w", newline="", encoding="utf-8") as performance_f
     writer.writerow([top_1_accuracy, top_3_accuracy])
 
 print("Performance metrics have been saved to performance.csv")
-
