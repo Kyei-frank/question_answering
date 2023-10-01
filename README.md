@@ -52,7 +52,7 @@ Windows:
     python -m venv venv
     venv\Scripts\activate
     python -m pip install -q --upgrade pip
-    python -m pip install -qr requirements.txt
+    python -m pip install -qr requirement.txt
     
 Linux & macOS:
 
