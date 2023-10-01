@@ -70,13 +70,14 @@ To set up the system using Docker:
 1. **Build the Docker Image**:
 
     ```
-    docker build -t question_answering_system .
+    docker build -t question_answering -f docker/Dockerfile .
+ .
     ```
 
 2. **Run the Docker Container**:
 
     ```
-    docker run -d -p 5000:5000 question_answering_system
+    docker run -d -p 5000:5000 question_answering
     ```
 
 With these commands, your system will be up and running inside a Docker container, accessible via `http://localhost:5000`.
@@ -135,4 +136,3 @@ Then, access the application in your web browser at `http://localhost:5000`.
 - Kwame AI
 - The Sentence Transformers library
 - Elasticsearch community
-- 
