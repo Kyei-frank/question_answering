@@ -135,3 +135,4 @@ Then, access the application in your web browser at `http://localhost:5000`.
 - Kwame AI
 - The Sentence Transformers library
 - Elasticsearch community
+- 
