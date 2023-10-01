@@ -109,11 +109,11 @@ Run all the required files in the following order to index and retrieve passages
 
 Upload documents for indexing via cmd:
 
-    curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"What case defines what an offer is?\"}" http://localhost:5000/search
+    curl -X POST -F "file=@path/to/your/file.csv" http://127.0.0.1:5000/upload
 
 Submit query for response via cmd:
 
-    curl -X POST -F "file=@path/to/your/file.txt" http://127.0.0.1:5000/upload
+    curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"What case defines what an offer is?\"}" http://localhost:5000/search
 
 To generate a response with `search_script.py` via Terminal:
 
