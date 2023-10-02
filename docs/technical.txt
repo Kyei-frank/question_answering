@@ -54,7 +54,7 @@ The importance of a comprehensive evaluation mechanism cannot be overstated:
 - A separate script (manual_rating_and_performace_evaluation.py) aids in the manual rating process, culminating in the evaluation_rated.csv file.
 - Both Top-1 and Top-3 accuracy metrics are computed, with the results diligently stored in performance.csv.
 
-Task 9 and 10: Evaluation
+Task 9 and 10
 In Progress
 
 Conclusion
