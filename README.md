@@ -9,130 +9,212 @@
   - [Installation](#installation)
     - [Clone the repository:](#clone-the-repository)
     - [Manual Setup](#manual-setup)
-  - [Docker Setup and Commands](#docker-setup-and-commands)
   - [Configuration](#configuration)
   - [Usage](#usage)
     - [Manual Setup](#manual-setup-1)
     - [1. Command-Line Interface (CLI)](#1-command-line-interface-cli)
     - [2. Web Interface](#2-web-interface)
+  - [Docker Setup](#docker-setup)
+    - [Manual Docker Setup and Commands](#manual-docker-setup-and-commands)
+    - [Pulling and Running from Docker Hub](#pulling-and-running-from-docker-hub)
   - [Author:](#author)
   - [Acknowledgments](#acknowledgments)
+  - [Troubleshooting](#troubleshooting)
+  - [Versioning](#versioning)
 
 ## Project Description
 
 The Question Answering System is a Python application designed to streamline information retrieval and question-answering tasks. This system harnesses the power of Elasticsearch and Sentence Transformers, making it capable of retrieving precise answers from a vast repository of textual data.
 
 Key Components:
-- **Sentence Transformers**: Employs advanced models to generate text embeddings.
-- **Elasticsearch**: Serves as a reliable vector store for efficient data retrieval.
-- **Docker**: Provides seamless containerization and deployment capabilities.
-- **Flask**: Powers the user-friendly API for effortless interaction.
+- **Sentence Transformers**: Generates text embeddings.
+- **Elasticsearch**: A reliable vector store for data retrieval.
+- **Docker**: Ensures seamless containerization and deployment.
+- **Flask**: Facilitates user-friendly API interaction.
 
-The primary objective is to create a robust and user-friendly question-answering (QA) machine learning system. It excels at interpreting user queries, searching for pertinent information within a given dataset, and presenting accurate answers.
+The primary goal is to create a robust and user-friendly question-answering (QA) machine learning system. It's adept at interpreting user queries, sifting through a dataset for relevant information, and presenting accurate answers.
 
 ## Prerequisites
 
-Before you begin, ensure you have met the following requirements:
+Ensure you have:
 
 - Docker & Docker Compose
 - Python 3.10 (for manual setup)
 - Elasticsearch (for manual setup)
-- Required Python packages (specified in `requirements.txt`)
+- Required Python packages (`requirements.txt`)
 
 ## Installation
 
 ### Clone the repository:
 
-    git clone https://github.com/Kyei-frank/question_answering.git
+```
+git clone https://github.com/Kyei-frank/question_answering.git
+```
 
 ### Manual Setup
 
-Windows:
+**Windows**:
 
-    python -m venv venv
-    venv\Scripts\activate
-    python -m pip install -q --upgrade pip
-    python -m pip install -qr requirement.txt
-    
-Linux & macOS:
+```
+python -m venv venv
+venv\Scripts\activate
+python -m pip install -q --upgrade pip
+python -m pip install -qr requirement.txt
+```
 
-    python3 -m venv venv
-    source venv/bin/activate
-    python -m pip install -q --upgrade pip
-    python -m pip install -qr requirements.txt
+**Linux & macOS**:
 
-Note: macOS users may need to install Xcode if there are issues.
+```
+python3 -m venv venv
+source venv/bin/activate
+python -m pip install -q --upgrade pip
+python -m pip install -qr requirements.txt
+```
 
-## Docker Setup and Commands
-
-To set up the system using Docker:
-
-1. **Build the Docker Image**:
-
-    ```
-    docker build -t question_answering -f docker/Dockerfile .
- .
-    ```
-
-2. **Run the Docker Container**:
-
-    ```
-    docker run -d -p 5000:5000 question_answering
-    ```
-
-With these commands, your system will be up and running inside a Docker container, accessible via `http://localhost:5000`.
+> **Note**: macOS users might need Xcode for certain installations.
 
 ## Configuration
 
-Set up environment variables for Elasticsearch Cloud:
+Set environment variables for Elasticsearch Cloud:
 
-    export ES_USERNAME=elastic
-    export ES_PASSWORD=ElasticsearchPassword
-    export ES_CLOUD_ENDPOINT=your-elasticsearch-url.com
+```
+export ES_USERNAME=elastic
+export ES_PASSWORD=YourElasticsearchPassword
+export ES_CLOUD_ENDPOINT=your-elasticsearch-url.com
+```
 
-You can configure other settings in `config.py` if necessary.
+Further settings can be adjusted in `config.py`.
 
 ## Usage
 
 ### Manual Setup
 
-Run all the required files in the following order to index and retrieve passages:
+Run the necessary files in sequence to index and retrieve passages. Ensure you're in the "/app" directory:
 
-(Make sure to navigate to the files location "/app")
-
-    python parsing.py
-    python model.py
-    python indexing.py
-    python retrieval.py
-    python app.py
+```
+python parsing.py
+python model.py
+python indexing.py
+python retrieval.py
+python app.py
+```
 
 ### 1. Command-Line Interface (CLI)
 
-Upload documents for indexing via cmd:
+To upload documents for indexing:
 
-    curl -X POST -F "file=@path/to/your/file.csv" http://127.0.0.1:5000/upload
+```
+curl -X POST -F "file=@path/to/your/file.csv" http://127.0.0.1:5000/upload
+```
 
-Submit query for response via cmd:
+For responses to queries:
 
-    curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"What case defines what an offer is?\"}" http://localhost:5000/search
+```
+curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"Your Question Here\"}" http://localhost:5000/search
+```
 
-To generate a response with `search_script.py` via Terminal:
+To use `search_script.py`:
 
-    python app/search_script.py "what is a case?"
+```
+python app/search_script.py "Your Query Here"
+```
 
 ### 2. Web Interface
 
-To use the web interface, run the Flask app:
+Run the Flask app:
 
-    python app.py
+```
+python app.py
+```
 
-Then, access the application in your web browser at `http://localhost:5000`.
+Access it at: `http://localhost:5000`.
+
+## Docker Setup
+
+### Manual Docker Setup and Commands
+
+1. **Build the Docker Image**:
+
+```
+docker build -t question_answering -f docker/Dockerfile .
+```
+
+2. **Run the Docker Container**:
+
+```
+docker run -d -p 5000:5000 question_answering
+```
+
+Your system should now be accessible at `http://localhost:5000`.
+
+### Pulling and Running from Docker Hub 
+
+1. **Pull the Docker Image**:
+
+Pull the Docker image to obtain a pre-configured environment with all the necessary dependencies:
+
+```
+docker pull frankkyei/question_answering:latest
+```
+
+2. **Run a Docker Container**:
+
+```
+docker run -d -p 5000:5000 frankkyei/question_answering:latest
+```
+
+3. **Test the Endpoints**:
+
+Test via `curl` or an API client:
+
+For `/upload`:
+
+```
+curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
+```
+
+For `/search`:
+
+```
+curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"Your Question Here\"}" http://localhost:5000/search
+```
+
+4. **Run the `search_script.py`**:
+
+Identify your container's ID or name:
+
+```
+docker ps
+```
+
+Execute the script within the container:
+
+```
+docker exec -it [CONTAINER_ID_OR_NAME] python app/search_script.py "Your Query Here"
+```
+
+Replace
+
+ `[CONTAINER_ID_OR_NAME]` with the container ID/name.
 
 ## Author:
+
 [FK Baffour](https://www.linkedin.com/in/frank-kyei-baffour-403b60100/)
 
 ## Acknowledgments
 
 - Kwame AI
-- The Sentence Transformers library
+- Sentence Transformers library
 - Elasticsearch community
+
+## Troubleshooting
+
+Should you encounter issues, consider these common fixes:
+
+1. **Docker Container Not Running**: Ensure Docker is up and running. Check running containers with `docker ps`.
+2. **Dependency Issues**: Ensure all required packages are installed. If using Docker, the image should handle this for you.
+3. **API Errors**: Check your request format and data.
+
+## Versioning
+
+This documentation refers to version 1.0.0 of the Question Answering System. Future updates may alter functionalities or dependencies.

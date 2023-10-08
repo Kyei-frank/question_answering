@@ -60,7 +60,7 @@ class Retrievals:
         # self.es.indices.clear_cache(index=self.index_name)
 
         query = {
-            "size": 5,
+            "size": 3,
             "query": {
                 "script_score": {
                     "query": {"match_all": {}},
