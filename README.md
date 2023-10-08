@@ -175,6 +175,7 @@ For `/upload`:
 curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
 
 ```
+*NB: Make sure the '@' symbol comes before inserting your file path*
 
 For `/search`:
 
@@ -196,9 +197,7 @@ Execute the script within the container:
 docker exec -it [CONTAINER_ID_OR_NAME] python app/search_script.py "Your Query Here"
 ```
 
-Replace
-
- `[CONTAINER_ID_OR_NAME]` with the container ID/name.
+Replace `[CONTAINER_ID_OR_NAME]` with the container ID/name.
 
 ## Author:
 
