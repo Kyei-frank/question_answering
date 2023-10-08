@@ -60,6 +60,9 @@ def upload_file():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     if file and allowed_file(file.filename):
+        # Ensure UPLOAD_FOLDER exists
+        os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+        
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         # Run the indexer to index the uploaded file

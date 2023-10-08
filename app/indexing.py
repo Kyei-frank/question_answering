@@ -1,7 +1,7 @@
 import os
 import csv
 import json
-from elasticsearch import Elasticsearch, exceptions
+from elasticsearch import Elasticsearch, exceptions, helpers
 from sentence_transformers import SentenceTransformer
 
 class ElasticSearchIndexer:
@@ -20,16 +20,10 @@ class ElasticSearchIndexer:
 
     def setup_elasticsearch(self):
         """Establish connection with Elasticsearch and set up the index."""
-        # Set environment variables for Elasticsearch credentials and endpoint
-        # Note: It is recommended to use secure means such as environment variables or config files to store credentials
-        os.environ['ES_USERNAME'] = 'elastic'
-        os.environ['ES_PASSWORD'] = 'M7JmMggiaAX76LulPu2OuQT3'
-        os.environ['ES_CLOUD_ENDPOINT'] = 'https://my-deployment-f4fc58.es.us-central1.gcp.cloud.es.io'
-        
         # Retrieve Elasticsearch credentials and endpoint from environment variables
-        es_cloud_endpoint = os.getenv("ES_CLOUD_ENDPOINT")
-        es_username = os.getenv("ES_USERNAME")
-        es_password = os.getenv("ES_PASSWORD")
+        es_cloud_endpoint = os.getenv("ES_CLOUD_ENDPOINT", 'https://my-deployment-f4fc58.es.us-central1.gcp.cloud.es.io')
+        es_username = os.getenv("ES_USERNAME", 'elastic')
+        es_password = os.getenv("ES_PASSWORD", 'M7JmMggiaAX76LulPu2OuQT3')
         
         # Attempt to establish a connection to Elasticsearch Cloud
         try:
@@ -40,7 +34,6 @@ class ElasticSearchIndexer:
 
     def create_update_index(self):
         """Create or update the Elasticsearch index with the specified mapping."""
-        # Define the settings and mappings for the Elasticsearch index
         mapping = {
             "settings": {
                 "number_of_shards": 1,
@@ -64,32 +57,36 @@ class ElasticSearchIndexer:
             self.es.indices.create(index=self.index_name, settings=mapping['settings'])
             self.es.indices.put_mapping(index=self.index_name, body=mapping['mappings'])
 
-    def index_data(self):
-        """Index data from the specified CSV file into Elasticsearch."""
-        # Open the CSV file and read the content
+    def generate_actions(self):
+        """Generate bulk actions for indexing."""
         with open(self.csv_file_path, mode='r', encoding='utf-8') as csv_file:
             csv_reader = csv.DictReader(csv_file)
-            # Iterate through each row in the CSV and index it to Elasticsearch
             for row in csv_reader:
-                document = {
-                    "Passage": row["Passage"],
-                    "Metadata": json.loads(row["Metadata"]),
-                    "Embedding": [float(x) for x in row["Embedding"].strip('[]').split(',')]
-                }
-                self.es.index(index=self.index_name, document=document)
+                if all(key in row for key in ["Passage", "Metadata", "Embedding"]): # Check if the expected columns are present
+                    document = {
+                        "_index": self.index_name,
+                        "_source": {
+                            "Passage": row["Passage"],
+                            "Metadata": json.loads(row["Metadata"]),
+                            "Embedding": [float(x) for x in row["Embedding"].strip('[]').split(',')]
+                        }
+                    }
+                    yield document
 
-        # Retrieve and print the count of documents in the index
-        doc_count = self.es.count(index=self.index_name)['count']
-        print(f"Indexing completed. Number of documents indexed: {doc_count}")
+    def index_data(self):
+        """Index data using the bulk API."""
+        try:
+            helpers.bulk(self.es, self.generate_actions())
+            doc_count = self.es.count(index=self.index_name)['count']
+            print(f"Indexing completed. Number of documents indexed: {doc_count}")
+        except Exception as e:
+            print(f"Error during indexing: {e}")
 
     def run(self):
         """Execute the indexing process."""
         self.create_update_index()
         self.index_data()
 
-
-# Main execution
 if __name__ == "__main__":
-    # Instantiate the ElasticSearchIndexer class and run the indexer
     indexer = ElasticSearchIndexer()
     indexer.run()

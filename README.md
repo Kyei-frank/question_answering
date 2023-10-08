@@ -104,8 +104,10 @@ python app.py
 To upload documents for indexing:
 
 ```
-curl -X POST -F "file=@path/to/your/file.csv" http://127.0.0.1:5000/upload
+curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
 ```
+*NB: Make sure the '@' symbol comes before inserting your file path*
+
 
 For responses to queries:
 
@@ -171,6 +173,7 @@ For `/upload`:
 
 ```
 curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
+
 ```
 
 For `/search`:
