@@ -164,8 +164,12 @@ docker pull frankkyei/question_answering:latest
 ```
 docker run -d -p 5000:5000 frankkyei/question_answering:latest
 ```
+3. **Check Docker Status**: Ensure Docker is up and running with `docker ps`. If the desired container isn't listed, it's not running.
+    Check troubleshooting section below to know what to do.
+   
+  
 
-3. **Test the Endpoints**:
+4. **Test the Endpoints**:
 
 Test via `curl` or an API client:
 
