@@ -17,10 +17,10 @@
   - [Docker Setup](#docker-setup)
     - [Manual Docker Setup and Commands](#manual-docker-setup-and-commands)
     - [Pulling and Running from Docker Hub](#pulling-and-running-from-docker-hub)
-  - [Author:](#author)
-  - [Acknowledgments](#acknowledgments)
   - [Troubleshooting](#troubleshooting)
   - [Versioning](#versioning)
+  - [Author:](#author)
+  - [Acknowledgments](#acknowledgments)
 
 ## Project Description
 
@@ -199,6 +199,50 @@ docker exec -it [CONTAINER_ID_OR_NAME] python app/search_script.py "Your Query H
 
 Replace `[CONTAINER_ID_OR_NAME]` with the container ID/name.
 
+## Troubleshooting
+
+Should you encounter issues, consider these common fixes:
+
+1. **Empty reply from server**:
+   - **Description**: This happens when the server terminates the connection without sending a response.
+   - **Fix**:
+     - **Check Flask Logs**: Flask typically provides error messages and stack traces in its logs which can help identify the root cause.
+     - **Docker Logs**: If running Flask within a Docker container, you can view the logs with:
+       ```shell
+       docker logs CONTAINER_ID_OR_NAME
+       ```
+     - **Retry**: Intermittent network issues or temporary server hiccups might cause this. Try sending the request again.
+
+2. **Docker Container Not Running**:
+   - **Description**: The Docker container hosting the Flask app isn't running.
+   - **Fix**:
+     - **Check Docker Status**: Use the following command to check running containers:
+       ```shell
+       docker ps
+       ```
+     - **Restart Container**: If your container isn't running, you can start it with:
+       ```shell
+       docker start CONTAINER_ID_OR_NAME
+       ```
+
+3. **Dependency Issues**:
+   - **Description**: Missing or incompatible Python packages can cause runtime issues.
+   - **Fix**:
+     - **Install Dependencies**: Ensure all required packages are installed. If using Docker, the Dockerfile should handle the installations.
+     - **Virtual Environment**: If not using Docker, consider setting up a Python virtual environment.
+
+4. **API Errors**:
+   - **Description**: Errors related to the request format, headers, or payload data.
+   - **Fix**:
+     - **Request Format**: Ensure the correct HTTP method and `Content-Type` header.
+     - **Payload Data**: Ensure the data in the request is correctly formatted.
+
+
+
+## Versioning
+
+This documentation refers to version 1.0.0 of the Question Answering System. Future updates may alter functionalities or dependencies.
+
 ## Author:
 
 [FK Baffour](https://www.linkedin.com/in/frank-kyei-baffour-403b60100/)
@@ -208,15 +252,3 @@ Replace `[CONTAINER_ID_OR_NAME]` with the container ID/name.
 - Kwame AI
 - Sentence Transformers library
 - Elasticsearch community
-
-## Troubleshooting
-
-Should you encounter issues, consider these common fixes:
-
-1. **Docker Container Not Running**: Ensure Docker is up and running. Check running containers with `docker ps`.
-2. **Dependency Issues**: Ensure all required packages are installed. If using Docker, the image should handle this for you.
-3. **API Errors**: Check your request format and data.
-
-## Versioning
-
-This documentation refers to version 1.0.0 of the Question Answering System. Future updates may alter functionalities or dependencies.
