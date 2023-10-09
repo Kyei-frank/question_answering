@@ -187,7 +187,7 @@ For `/search`:
 curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"Your Question Here\"}" http://localhost:5000/search
 ```
 
-4. **Run the `search_script.py`**:
+5. **Run the `search_script.py`**:
 
 Identify your container's ID or name:
 
