@@ -15,8 +15,8 @@ EXPOSE 5000
 
 # Define environment variables
 ENV ES_USERNAME elastic
-ENV ES_PASSWORD JjfCLFlTkozxrjoJI6rgsj2F
-ENV ES_CLOUD_ENDPOINT https://my-deployment-eac7ec.es.us-central1.gcp.cloud.es.io
+ENV ES_PASSWORD ukUeTv7FdDxQzFosEjdW3TOU
+ENV ES_CLOUD_ENDPOINT https://my-deployment-a29d12.es.us-central1.gcp.cloud.es.io
 
 # Run your application when the container launches
 CMD ["python", "app/app.py"]

@@ -21,9 +21,9 @@ class ElasticSearchIndexer:
     def setup_elasticsearch(self):
         """Establish connection with Elasticsearch and set up the index."""
         # Retrieve Elasticsearch credentials and endpoint from environment variables
-        es_cloud_endpoint = os.getenv("ES_CLOUD_ENDPOINT", 'https://my-deployment-f4fc58.es.us-central1.gcp.cloud.es.io')
+        es_cloud_endpoint = os.getenv("ES_CLOUD_ENDPOINT", 'https://my-deployment-a29d12.es.us-central1.gcp.cloud.es.io')
         es_username = os.getenv("ES_USERNAME", 'elastic')
-        es_password = os.getenv("ES_PASSWORD", 'M7JmMggiaAX76LulPu2OuQT3')
+        es_password = os.getenv("ES_PASSWORD", 'ukUeTv7FdDxQzFosEjdW3TOU')
         
         # Attempt to establish a connection to Elasticsearch Cloud
         try:

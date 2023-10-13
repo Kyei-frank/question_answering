@@ -23,8 +23,8 @@ class Retrievals:
         
         # Set environment variables (This should ideally be set through secure means, not hardcoded)
         os.environ['ES_USERNAME'] = 'elastic'
-        os.environ['ES_PASSWORD'] = 'JjfCLFlTkozxrjoJI6rgsj2F'
-        os.environ['ES_CLOUD_ENDPOINT'] = 'https://my-deployment-eac7ec.es.us-central1.gcp.cloud.es.io'
+        os.environ['ES_PASSWORD'] = 'ukUeTv7FdDxQzFosEjdW3TOU'
+        os.environ['ES_CLOUD_ENDPOINT'] = 'https://my-deployment-a29d12.es.us-central1.gcp.cloud.es.io'
         
         # Retrieve Elasticsearch Cloud endpoint URL and credentials from environment variables
         es_cloud_endpoint = os.getenv('ES_CLOUD_ENDPOINT', "https://your-default-url.com")
