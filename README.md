@@ -1,26 +1,23 @@
-# Question Answering System
-
 ## Table of Contents
 
-- [Question Answering System](#question-answering-system)
-  - [Table of Contents](#table-of-contents)
-  - [Project Description](#project-description)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-    - [Clone the repository:](#clone-the-repository)
-    - [Manual Setup](#manual-setup)
-  - [Configuration](#configuration)
-  - [Usage](#usage)
-    - [Manual Setup](#manual-setup-1)
-    - [1. Command-Line Interface (CLI)](#1-command-line-interface-cli)
-    - [2. Web Interface](#2-web-interface)
-  - [Docker Setup](#docker-setup)
-    - [Manual Docker Setup and Commands](#manual-docker-setup-and-commands)
-    - [Pulling and Running from Docker Hub](#pulling-and-running-from-docker-hub)
-  - [Troubleshooting](#troubleshooting)
-  - [Versioning](#versioning)
-  - [Author:](#author)
-  - [Acknowledgments](#acknowledgments)
+- [Table of Contents](#table-of-contents)
+- [Project Description](#project-description)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+  - [Clone the repository:](#clone-the-repository)
+  - [Manual Setup](#manual-setup)
+- [Configuration](#configuration)
+- [Usage](#usage)
+  - [Manual Setup](#manual-setup-1)
+  - [1. Command-Line Interface (CLI)](#1-command-line-interface-cli)
+  - [2. Web Interface](#2-web-interface)
+- [Docker Setup](#docker-setup)
+  - [Manual Docker Setup and Commands](#manual-docker-setup-and-commands)
+  - [Pulling and Running from Docker Hub](#pulling-and-running-from-docker-hub)
+- [Troubleshooting](#troubleshooting)
+- [Versioning](#versioning)
+- [Author:](#author)
+- [Acknowledgments](#acknowledgments)
 
 ## Project Description
 
@@ -40,7 +37,7 @@ Ensure you have:
 
 - Docker & Docker Compose
 - Python 3.10 (for manual setup)
-- Elasticsearch (for manual setup)
+- Elasticsearch (for manual setup, and ensure it is running and accessible)
 - Required Python packages (`requirements.txt`)
 
 ## Installation
@@ -59,7 +56,7 @@ git clone https://github.com/Kyei-frank/question_answering.git
 python -m venv venv
 venv\Scripts\activate
 python -m pip install -q --upgrade pip
-python -m pip install -qr requirement.txt
+python -m pip install -qr requirements.txt
 ```
 
 **Linux & macOS**:
@@ -75,13 +72,15 @@ python -m pip install -qr requirements.txt
 
 ## Configuration
 
-Set environment variables for Elasticsearch Cloud:
+For users utilizing Elasticsearch Cloud, set the environment variables:
 
 ```
 export ES_USERNAME=elastic
 export ES_PASSWORD=YourElasticsearchPassword
 export ES_CLOUD_ENDPOINT=your-elasticsearch-url.com
 ```
+
+If you're using a local Elasticsearch setup or a different configuration, adjust the environment variables accordingly.
 
 Further settings can be adjusted in `config.py`.
 
@@ -106,8 +105,7 @@ To upload documents for indexing:
 ```
 curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
 ```
->**Note**: Make sure the '@' symbol comes before inserting your file path*
-
+>**Note**: Ensure the '@' symbol precedes your file path.
 
 For responses to queries:
 
@@ -135,117 +133,121 @@ Access it at: `http://localhost:5000`.
 
 ### Manual Docker Setup and Commands
 
-1. **Build the Docker Image**:
+1. **Build the Application Docker Image**:
 
-```
-docker build -t question_answering -f docker/Dockerfile .
-```
+    Navigate to the project root and run:
+    
+    ```bash
+    docker-compose -f docker/docker-compose.yml build
+    ```
 
-2. **Run the Docker Container**:
+    This will build the Docker image for your application.
 
-```
-docker run -d -p 5000:5000 question_answering
-```
+2. **Run the Application and Elasticsearch using Docker Compose**:
 
-Your system should now be accessible at `http://localhost:5000`.
+    From the project root, execute:
+
+    ```bash
+    docker-compose -f docker/docker-compose.yml up
+    ```
+
+    This command will start both your application and an Elasticsearch instance.
+
+    Your app will be able to connect to Elasticsearch using the hostname `elasticsearch`, thanks to Docker Compose which sets up a network for your services.
+
+3. **Accessing the Application**:
+
+    Once everything is up and running, access your application at:
+    
+    ```
+    http://localhost:5000
+    ```
+
+    Elasticsearch can be accessed (if needed) at:
+
+    ```
+    http://localhost:9200
+    ```
+
+4. **Stopping the Services**:
+
+    To gracefully stop the services, navigate to the project root and run:
+
+    ```
+    docker-compose -f docker/docker-compose.yml down
+    ```
 
 ### Pulling and Running from Docker Hub 
 
 1. **Pull the Docker Image**:
 
-Pull the Docker image to obtain a pre-configured environment with all the necessary dependencies:
+    Pull the Docker image to obtain a pre-configured environment with all the necessary dependencies:
 
-```
-docker pull frankkyei/question_answering:latest
-```
+    ```
+    docker pull frankkyei/question_answering_app:latest
+    ```
 
 2. **Run a Docker Container**:
 
-```
-docker run -d -p 5000:5000 frankkyei/question_answering:latest
-```
-3. **Check Docker Status**: Ensure Docker is up and running with `docker ps`. If the desired container isn't listed, it's not running.
-    Check troubleshooting section below to know what to do.
-   
-  
+    ```
+    docker-compose -f docker/docker-compose.yml up
+    ```
+
+3. **Check Docker Status**: Ensure Docker is up and running with `docker ps`. If the desired container isn't listed, it's not running. Check the troubleshooting section below to understand potential issues.
 
 4. **Test the Endpoints**:
 
-Test via `curl` or an API client:
+    Test via `curl` or an API client:
 
-For `/upload`:
+    For `/upload`:
 
-```
-curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
+    ```
+    curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
 
-```
->**Note**: Make sure the '@' symbol comes before inserting your file path
+    ```
+    >**Note**: Ensure the '@' symbol precedes your file path.
 
-For `/search`:
+    For `/search`:
 
-```
-curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"Your Question Here\"}" http://localhost:5000/search
-```
+    ```
+    curl -X POST -H "Content-Type: application/json" -d "{\"question\": \"Your Question Here\"}" http://localhost:5000/search
+    ```
 
 5. **Run the `search_script.py`**:
 
-Identify your container's ID or name:
+    Identify your container's ID or name:
 
-```
-docker ps
-```
+    ```
+    docker ps
+    ```
 
-Execute the script within the container:
+    Execute the script within the container:
 
-```
-docker exec -it [CONTAINER_ID_OR_NAME] python app/search_script.py "Your Query Here"
-```
+    ```
+    docker exec -it [CONTAINER_ID_OR_NAME] python app/search_script.py "Your Query Here"
+    ```
 
-Replace `[CONTAINER_ID_OR_NAME]` with the container ID/name.
+    Replace `[CONTAINER_ID_OR_NAME]` with the container ID/name.
 
 ## Troubleshooting
 
 Should you encounter issues, consider these common fixes:
 
 1. **Empty reply from server**:
-   - **Description**: This happens when the server terminates the connection without sending a response.
+   - **Description**: This can occur if the server terminates the connection without sending a response, or the server might not be running or crashed.
    - **Fix**:
      - **Check Flask Logs**: Flask typically provides error messages and stack traces in its logs which can help identify the root cause.
-     - **Docker Logs**: If running Flask within a Docker container, you can view the logs with:
+     - **Docker Logs**: If running Flask within a Docker container, view the logs with:
        ```shell
        docker logs CONTAINER_ID_OR_NAME
        ```
-     - **Retry**: Intermittent network issues or temporary server hiccups might cause this. Try sending the request again.
+     - **Retry**: Intermittent network issues or temporary server hiccups might
 
-2. **Docker Container Not Running**:
-   - **Description**: The Docker container hosting the Flask app isn't running.
-   - **Fix**:
-     - **Check Docker Status**: Use the following command to check running containers:
-       ```shell
-       docker ps
-       ```
-     - **Restart Container**: If your container isn't running, you can start it with:
-       ```shell
-       docker start CONTAINER_ID_OR_NAME
-       ```
-
-3. **Dependency Issues**:
-   - **Description**: Missing or incompatible Python packages can cause runtime issues.
-   - **Fix**:
-     - **Install Dependencies**: Ensure all required packages are installed. If using Docker, the Dockerfile should handle the installations.
-     - **Virtual Environment**: If not using Docker, consider setting up a Python virtual environment.
-
-4. **API Errors**:
-   - **Description**: Errors related to the request format, headers, or payload data.
-   - **Fix**:
-     - **Request Format**: Ensure the correct HTTP method and `Content-Type` header.
-     - **Payload Data**: Ensure the data in the request is correctly formatted.
-
-
+ resolve on their own. If the issue persists, consider the above.
 
 ## Versioning
 
-This documentation refers to version 1.0.0 of the Question Answering System. Future updates may alter functionalities or dependencies.
+This project uses [SemVer](http://semver.org/) for versioning.
 
 ## Author:
 
@@ -255,4 +257,6 @@ This documentation refers to version 1.0.0 of the Question Answering System. Fut
 
 - Kwame AI
 - Sentence Transformers library
-- Elasticsearch community
+- Elasticsearch
+- Docker
+- Flask

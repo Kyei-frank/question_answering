@@ -9,8 +9,10 @@ services:
     ports:
       - 9200:9200
 
-  question_answering:
-    build: .
+  question_answering_app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     depends_on:
       - elasticsearch
     environment:
