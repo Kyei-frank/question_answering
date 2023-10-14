@@ -188,12 +188,14 @@ Access it at: `http://localhost:5000`.
     ```
 
 2. **Run a Docker Container**:
+  
+    Start your container using the following command:
 
     ```
     docker-compose -f docker/docker-compose.yml up
     ```
 
-3. **Check Docker Status**: Ensure Docker is up and running with `docker ps`. If the desired container isn't listed, it's not running. Check the troubleshooting section below to understand potential issues.
+3. **Check Docker Status**: Use `docker ps` to ensure Docker is running properly. If your intended container isn't listed, it might not be running. Refer to the troubleshooting section below for potential issues and solutions.
 
 4. **Test the Endpoints**:
 
@@ -205,7 +207,7 @@ Access it at: `http://localhost:5000`.
     curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
 
     ```
-    >**Note**: Ensure the '@' symbol precedes your file path.
+    >**Note**: Note: You can download the `passage_metadata_emb.csv` file from the docs folder and use it as sample documents for indexing. Ensure the '@' symbol precedes your file path.
 
     For `/search`:
 
