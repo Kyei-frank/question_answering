@@ -21,19 +21,10 @@ class Retrievals:
         # Define Elasticsearch index name
         self.index_name = "passage_index"
         
-        # Set environment variables (This should ideally be set through secure means, not hardcoded)
-        os.environ['ES_USERNAME'] = 'elastic'
-        os.environ['ES_PASSWORD'] = 'ukUeTv7FdDxQzFosEjdW3TOU'
-        os.environ['ES_CLOUD_ENDPOINT'] = 'https://my-deployment-a29d12.es.us-central1.gcp.cloud.es.io'
-        
-        # Retrieve Elasticsearch Cloud endpoint URL and credentials from environment variables
-        es_cloud_endpoint = os.getenv('ES_CLOUD_ENDPOINT', "https://your-default-url.com")
-        es_username = os.getenv('ES_USERNAME', "your-default-username")
-        es_password = os.getenv('ES_PASSWORD', "your-default-password")
-
-        # Connect to Elasticsearch Cloud
+    # Connect to Local Elasticsearch
+        es_host = os.getenv('ES_HOST', 'localhost')
         try:
-            self.es = Elasticsearch(es_cloud_endpoint, http_auth=(es_username, es_password))
+            self.es = Elasticsearch(hosts=[es_host])
         except Exception as e:
             print(f"Failed to connect to Elasticsearch: {e}")
             exit()

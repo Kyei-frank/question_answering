@@ -19,19 +19,10 @@ class ElasticSearchIndexer:
         self.csv_file_path = "docs\passage_metadata_emb.csv"
 
     def setup_elasticsearch(self):
-        """Establish connection with Elasticsearch and set up the index."""
-        # Retrieve Elasticsearch credentials and endpoint from environment variables
-        es_cloud_endpoint = os.getenv("ES_CLOUD_ENDPOINT", 'https://my-deployment-a29d12.es.us-central1.gcp.cloud.es.io')
-        es_username = os.getenv("ES_USERNAME", 'elastic')
-        es_password = os.getenv("ES_PASSWORD", 'ukUeTv7FdDxQzFosEjdW3TOU')
-        
-        # Attempt to establish a connection to Elasticsearch Cloud
-        try:
-            self.es = Elasticsearch(es_cloud_endpoint, http_auth=(es_username, es_password))
-        except exceptions.ConnectionError as e:
-            print(f"Error connecting to Elasticsearch: {e}")
-            exit()
+        es_host = os.getenv('ES_HOST', 'localhost')
+        self.es = Elasticsearch(hosts=[es_host])
 
+       
     def create_update_index(self):
         """Create or update the Elasticsearch index with the specified mapping."""
         mapping = {
