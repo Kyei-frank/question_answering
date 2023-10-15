@@ -15,7 +15,6 @@
   - [Manual Docker Setup and Commands](#manual-docker-setup-and-commands)
   - [Pulling and Running from Docker Hub](#pulling-and-running-from-docker-hub)
 - [Troubleshooting](#troubleshooting)
-- [Versioning](#versioning)
 - [Author:](#author)
 - [Acknowledgments](#acknowledgments)
 
@@ -243,20 +242,39 @@ Access it at: `http://localhost:5000`.
 Should you encounter issues, consider these common fixes:
 
 1. **Empty reply from server**:
-   - **Description**: This can occur if the server terminates the connection without sending a response, or the server might not be running or crashed.
+   - **Description**: This happens when the server terminates the connection without sending a response.
    - **Fix**:
      - **Check Flask Logs**: Flask typically provides error messages and stack traces in its logs which can help identify the root cause.
-     - **Docker Logs**: If running Flask within a Docker container, view the logs with:
+     - **Docker Logs**: If running Flask within a Docker container, you can view the logs with:
        ```shell
        docker logs CONTAINER_ID_OR_NAME
        ```
-     - **Retry**: Intermittent network issues or temporary server hiccups might
+     - **Retry**: Intermittent network issues or temporary server hiccups might cause this. Try sending the request again.
 
- resolve on their own. If the issue persists, consider the above.
+2. **Docker Container Not Running**:
+   - **Description**: The Docker container hosting the Flask app isn't running.
+   - **Fix**:
+     - **Check Docker Status**: Use the following command to check running containers:
+       ```shell
+       docker ps
+       ```
+     - **Restart Container**: If your container isn't running, you can start it with:
+       ```shell
+       docker start CONTAINER_ID_OR_NAME
+       ```
 
-## Versioning
+3. **Dependency Issues**:
+   - **Description**: Missing or incompatible Python packages can cause runtime issues.
+   - **Fix**:
+     - **Install Dependencies**: Ensure all required packages are installed. If using Docker, the Dockerfile should handle the installations.
+     - **Virtual Environment**: If not using Docker, consider setting up a Python virtual environment.
 
-This project uses [SemVer](http://semver.org/) for versioning.
+4. **API Errors**:
+   - **Description**: Errors related to the request format, headers, or payload data.
+   - **Fix**:
+     - **Request Format**: Ensure the correct HTTP method and `Content-Type` header.
+     - **Payload Data**: Ensure the data in the request is correctly formatted.
+
 
 ## Author:
 
