@@ -36,17 +36,14 @@ def search():
     Endpoint to handle user questions and return relevant passages.
     It retrieves answers based on the received question.
     """
-    if request.method == 'POST':
-        # Updated the line below to get JSON payload
-        data = request.get_json()
-        question = data.get('question')
+    data = request.get_json()
+    question = data.get('question')
         
-        if not question:
-            return jsonify({"error": "Question not provided"}), 400
+    if not question:
+        return jsonify({"error": "Question not provided"}), 400
         
-        # Removed the list wrapping around question since retrieve_answers expects a list
-        results = retrieval.retrieve_answers([question])
-        return jsonify(results), 200
+    results = retrieval.retrieve_answers([question])
+    return jsonify(results), 200
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -60,13 +57,15 @@ def upload_file():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     if file and allowed_file(file.filename):
-        # Ensure UPLOAD_FOLDER exists
         os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
         
         filename = secure_filename(file.filename)
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        # Run the indexer to index the uploaded file
+        
+        # Assuming the uploaded file contains embeddings, proceed to indexing
+        indexer.csv_file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         indexer.run()
+        
         return jsonify({"success": "File uploaded and indexed"}), 200
     return jsonify({"error": "File type not allowed"}), 400
 

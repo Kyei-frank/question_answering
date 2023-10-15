@@ -87,6 +87,7 @@ class Retrievals:
                 
                 # Write the results to the CSV file
                 row = [question]
+                passage = None  # Initialize passage variable
                 for doc in similar_docs:
                     passage = doc['_source']['Passage']
                     score = doc['_score']
@@ -97,7 +98,8 @@ class Retrievals:
                 csv_writer.writerow(row)
                 
                 # Print to the command line
-                print(passage)
+                if passage: # Only print passage if it has been assigned a value
+                    print(passage)
                 
             print("Results have been saved to questions_answers.csv")
             return(similar_docs)

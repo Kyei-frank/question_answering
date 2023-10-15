@@ -10,7 +10,9 @@ services:
       - 9200:9200
 
   question_answering_app:
-    image: frankkyei/question_answering_app:latest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
     depends_on:
       - elasticsearch
     environment:

@@ -200,6 +200,13 @@ Access it at: `http://localhost:5000`.
 4. **Test the Endpoints**:
 
     Test via `curl` or an API client:
+    
+    First run the indexing.py file to index the into Elatic search so you can run some queries
+
+    ```
+    docker exec -it [CONTAINER_ID_OR_NAME] python app/indexing.py
+
+    ```
 
     For `/upload`:
 

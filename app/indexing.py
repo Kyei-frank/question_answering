@@ -2,13 +2,9 @@ import os
 import csv
 import json
 from elasticsearch import Elasticsearch, exceptions, helpers
-from sentence_transformers import SentenceTransformer
 
 class ElasticSearchIndexer:
     def __init__(self):
-        # Load the SentenceTransformer model for generating embeddings
-        self.model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
-
         # Define the name of the Elasticsearch index
         self.index_name = "passage_index"
         
@@ -16,13 +12,13 @@ class ElasticSearchIndexer:
         self.setup_elasticsearch()
 
         # Specify the path to the CSV file containing passage, metadata, and embeddings
-        self.csv_file_path = "docs\passage_metadata_emb.csv"
+        self.csv_file_path = os.path.join("docs", "passage_metadata_emb.csv")
+
 
     def setup_elasticsearch(self):
         es_host = os.getenv('ES_HOST', 'localhost')
         self.es = Elasticsearch(hosts=[es_host])
 
-       
     def create_update_index(self):
         """Create or update the Elasticsearch index with the specified mapping."""
         mapping = {
