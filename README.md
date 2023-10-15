@@ -184,7 +184,7 @@ Access it at: `http://localhost:5000`.
     Pull the Docker image to obtain a pre-configured environment with all the necessary dependencies:
 
     ```
-    docker pull frankkyei/question_answering_app:latest
+    docker pull frankkyei/docker-question_answering_app:latest
     ```
 
 2. **Run a Docker Container**:
