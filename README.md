@@ -189,10 +189,10 @@ Access it at: `http://localhost:5000`.
 
 2. **Run a Docker Container**:
   
-    Start your container using the following command:
+    To run both the app and Elasticsearch containers in tandem, you'd need access to the `docker-compose.yml` file, which means you'd have to clone this repository or somehow download the  `docker-compose.yml` file in the docker folder to your computer and specify the path to the file in the codes below:
 
     ```
-    docker-compose -f docker/docker-compose.yml up
+    docker-compose -f path/to/docker-compose.yml up
     ```
 
 3. **Check Docker Status**: Use `docker ps` to ensure Docker is running properly. If your intended container isn't listed, it might not be running. Refer to the troubleshooting section below for potential issues and solutions.
