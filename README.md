@@ -201,7 +201,7 @@ Access it at: `http://localhost:5000`.
 
     Test via `curl` or an API client:
     
-    First run the indexing.py file to index the into Elatic search so you can run some queries
+    First run the indexing.py file to index the data into Elatic search so you can run some queries
 
     ```
     docker exec -it [CONTAINER_ID_OR_NAME] python app/indexing.py
@@ -214,7 +214,7 @@ Access it at: `http://localhost:5000`.
     curl -X POST -F "file=@path/to/your/file.csv" http://localhost:5000/upload
 
     ```
-    >**Note**: Note: You can download the `passage_metadata_emb.csv` file from the docs folder and use it as sample documents for indexing. Ensure the '@' symbol precedes your file path.
+    >**Note**: Note: You can download the `passage_metadata_emb.csv` file from the docs folder and use it as sample documents for indexing. Ensure the '@' symbol precedes your file path. 
 
     For `/search`:
 
