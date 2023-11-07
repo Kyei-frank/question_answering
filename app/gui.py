@@ -21,7 +21,6 @@ if st.button("Get Answer"):
             for passage in passages:
                 st.write(f"**Passage:** {passage['_source']['Passage']}")
                 st.write(f"**Relevance Score:** {passage['_score']}")
-                st.write(f"**Metadata:** {passage['_source']['Metadata']}")
                 st.write('---')
         else:
             st.write('No relevant passages found for the given question.')
