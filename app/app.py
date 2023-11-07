@@ -5,6 +5,8 @@ import os
 from retrieval import Retrievals
 from indexing import ElasticSearchIndexer
 from werkzeug.utils import secure_filename
+import subprocess
+import webbrowser
 
 # Initializing Flask application
 app = Flask(__name__)
@@ -41,9 +43,17 @@ def search():
         
     if not question:
         return jsonify({"error": "Question not provided"}), 400
-        
+    
+    # Retrieve answers using your retrieval logic
     results = retrieval.retrieve_answers([question])
-    return jsonify(results), 200
+    
+    # Prepare the response structure
+    response_data = {
+        'question': question,
+        'passages': results  # Make sure results contain passages and their relevant information
+    }
+    
+    return jsonify(response_data), 200
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -68,6 +78,14 @@ def upload_file():
         
         return jsonify({"success": "File uploaded and indexed"}), 200
     return jsonify({"error": "File type not allowed"}), 400
+
+# Creating a route for launching the Streamlit app
+@app.route('/streamlit')
+def run_streamlit_app():
+    # Run Streamlit app as a subprocess
+    subprocess.Popen(['streamlit', 'run', 'app/gui.py'])
+    # Open the Streamlit app in a new tab or window
+    return "Streamlit app is running!"
 
 @app.errorhandler(404)
 def not_found(e):
